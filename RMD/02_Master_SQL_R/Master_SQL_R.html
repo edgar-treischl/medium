@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Master SQL with R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="Master_SQL_R_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Master_SQL_R_files/libs/quarto-html/quarto.js"></script>
+<script src="Master_SQL_R_files/libs/quarto-html/popper.min.js"></script>
+<script src="Master_SQL_R_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Master_SQL_R_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Master_SQL_R_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Master_SQL_R_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Master_SQL_R_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Master_SQL_R_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Master_SQL_R_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Master SQL with R</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>This article briefly introduces R packages to master SQL. I will not introduce SQL nor all kind of R packages that are helpful to work with SQL; instead I will focus on packages that support us to learn SQL. First, I show that there is no need to install software, create databases, or get familiar with cloud applications in the beginning. You can focus on and run SQL queries from R with no further ado. Moreover, we will connect to a database and see why especially the <code>RSQLite</code> package helps us in the first steps. Second, I introduce the <code>dbplyr</code> package which let us combine our R and SQL skills. Finally, I highlight how a document with SQL code and output can be generated from R to summarize our (SQL) knowledge and progress.</p>
+<section id="run-sql-queries-from-r" class="level2">
+<h2 class="anchored" data-anchor-id="run-sql-queries-from-r">Run SQL queries from R</h2>
+<p>Many books and courses introduces SQL and they outline in depth what SQL (structured query language) is. A lot of them go beyond this step, they start to introduce different databases backends (e.g., MySQL, MariaDB), CLI commands to interact with databases, and they show how to setup software or at least introduce a web interface to interact with a database.</p>
+<p>Certainly, these topics increase our understanding, but this seems a lot of effort considering your first goal is to familiarize yourself with SQL. We need to practice SQL and the described steps make the learning curve pretty steep. Fortunately, for R users there is no need to install software or create a database to run your first queries. Consider the next console with a simple SQL code snippet. It illustrates that we often start with a select step since we need to retrieve data from the database. We select one, several, or all columns (<code>*</code>) from the table. Later I’ll show you that we can use R and translate R code into SQL, so keep this simple SQL snippet in mind:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">--Example SQL Code</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> var <span class="kw">FROM</span> <span class="kw">data</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In further steps we may learn how to filter the data and set a condition (in SQL we apply a <code>WHERE</code> clause); we learn how to count (<code>COUNT</code>) cases, or do some basic calculations such as calculating the mean (<code>AVG</code>). You can write and run all of these queries without leaving R. Let’s keep it simple. Suppose we want to learn how to select a variable and calculate the mean:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">AVG</span>(var) <span class="kw">FROM</span> <span class="kw">data</span>;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>sqldf</code> package let us apply SQL code snippets to a data frame <span class="citation" data-cites="sqldf">(<a href="#ref-sqldf" role="doc-biblioref">Grothendieck 2017</a>)</span>. You can build your SQL skills and follow a course without a large setup, without our own database, or any cloud solution in the beginning. Install the package (via <code>install.packages</code>) and write your first queries from R. How about the mean consumption of cars with the implemented <code>mtcars</code> data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Run SQL code from R</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sqldf)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sqldf</span>(<span class="st">'SELECT AVG(mpg) FROM mtcars;'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;   AVG(mpg)
+#&gt; 1 20.09062</code></pre>
+</div>
+</div>
+<p>The <code>sqldf</code> package makes it very convenient to run a few SQL snippets and the package outlines how we interact with different SQL databases in its documentation: ” <code>sqldf()</code> transparently sets up a database, imports the data frames into that database, performs the SQL select or other statement and returns the result using a heuristic to determine which class to assign to each column of the returned data frame” <span class="citation" data-cites="sqldf">(<a href="#ref-sqldf" role="doc-biblioref">Grothendieck 2017</a>)</span>.</p>
+<p>Again, there is no need to establish a real database in the beginning, we can make use of the <em>local memory</em> to simulate a database, save a table (data frame) and run SQL commands directly as a code chunk from the R script exactly as the <code>sqldf</code> package does. The <code>RSQLite</code> package helps us with this task, it creates the SQLite database on your local machine <span class="citation" data-cites="RSQLite">(<a href="#ref-RSQLite" role="doc-biblioref">Müller et al. 2023</a>)</span>. With this approach, it is almost like if we work with a real database, but it is still very convenient for beginners. To do so, we need to establish a connection to the database and this code chunk will also work as a template in the near future when you switch from the local to the real database.</p>
+<p>How do we connect R with a database? Use the <code>DBI</code> package to connect to many different databases <span class="citation" data-cites="DBI">(<a href="#ref-DBI" role="doc-biblioref">Wickham and Müller 2022</a>)</span>. In a nutshell, we need to establish a connection (<code>con</code>) with the <code>dbConnect()</code> function. This implies that we need to pick a driver (<code>drv</code>) to connect to a specific database (e.g., <code>RMariaDB::MariaDB()</code> for MariaDB; or <code>RSQLServer::SQLServer</code> for Postgres, etc.); furthermore, we need to provide the properties needed to get access to the database (e.g., host, username, etc.).</p>
+<p>The <code>DBI</code> package gives us the code to illustrate this step with a <code>guest</code> account for a <code>MariaDB</code> database.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Establish a connection</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">drv =</span> RMariaDB<span class="sc">::</span><span class="fu">MariaDB</span>(),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">dbname =</span> <span class="st">"sakila"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">host =</span> <span class="st">"relational.fit.cvut.cz"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">port =</span> <span class="dv">3306</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">"guest"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">"relational"</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>After we made the connection, check if the approach worked. The <code>dbListTables()</code> functions lists all available tables of the connected database.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#List all available tables/data</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbListTables</span>(con)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  [1] "actor"         "address"       "category"     </span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  [4] "city"          "country"       "customer"     </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  [7] "film"          "film_actor"    "film_category"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># [10] "film_text"     "inventory"     "language"     </span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># [13] "payment"       "rental"        "staff"        </span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># [16] "store"     </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Keep in mind that we do not want to share sensitive information such as the user name or password in the code. Use the <code>askForPassword()</code> function from the <code>rstudioapi</code> package <span class="citation" data-cites="rstudioapi">(<a href="#ref-rstudioapi" role="doc-biblioref">Ushey et al. 2023</a>)</span>. It forces us to insert the password each time we connect. Or use the <code>keyring</code> package to save the key savely in your environment and not in the code <span class="citation" data-cites="keyring">(<a href="#ref-keyring" role="doc-biblioref">Csárdi 2022</a>)</span>. Irrespective of the used approach, we connect to the database, retrieve and wrangle data, and finally disconnect before we can go on.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Disconnect after have finished the job</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(con)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I claimed that we can run this step without having access to a database. That’s where the <code>RSQLite</code> package comes into play. The <code>SQLite()</code> function creates the SQLite database on your local machine if you use <code>:memory:</code> as database name (<code>dbname</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create in-memory RSQLite database</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="at">drv =</span> RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dbname =</span> <span class="st">":memory:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This creates an empty database which is why we need to insert a table into the local database first.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Write a table into the data base</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(<span class="at">conn =</span> con, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">name =</span> <span class="st">"mtcars"</span>, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">value =</span> mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>dbSendQuery()</code> function let you sent SQL queries to the connected database, <code>dbFetch</code> shows the result, and we can clear the result after we have finished.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Send queries to the local database</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>result_DB <span class="ot">&lt;-</span> <span class="fu">dbSendQuery</span>(con, <span class="st">"SELECT AVG(mpg) FROM mtcars;"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dbFetch</span>(result_DB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;   AVG(mpg)
+#&gt; 1 20.09062</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbClearResult</span>(result_DB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Such R packages increases our learning curve substantially, since we can create a database and write SQL code without any other equipment than our local machine. In addition, the <code>dbplyr</code> package will help us to combine our R skills with SQL, it even translate R into SQL.</p>
+</section>
+<section id="the-dbplyr-package" class="level2">
+<h2 class="anchored" data-anchor-id="the-dbplyr-package">The dbplyr package</h2>
+<p>As outlined on the package website: “<code>dbplyr</code> is the database backend for dplyr <span class="citation" data-cites="dbplyr">(<a href="#ref-dbplyr" role="doc-biblioref">Wickham, Girlich, and Ruiz 2023</a>)</span>. It allows you to use remote database tables as if they are in-memory data frames by automatically converting dplyr code into SQL.” Thus, we can apply common dplyr verbs to SQL databases. First, we need to create a table from a database with the <code>tbl()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create a table from the database</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>mtcars_db <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"mtcars"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let us go back to example SQL code snippet. Suppose we didn’t know how to select and calculate the mean in SQL. There are several ways to calculate it with R, but the <code>tidyverse</code> approach is not difficult <span class="citation" data-cites="tidyverse">(<a href="#ref-tidyverse" role="doc-biblioref">Wickham et al. 2019</a>)</span>; and it let us apply our <code>dplyr</code> knowledge thanks to the <code>dbplyr</code> package. The <code>summarise()</code> function collapses the data and we get the <code>mean()</code> by including it in the latter step, however, only if we run the code locally.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Get mean with dplyr (locally)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_mpg =</span> <span class="fu">mean</span>(mpg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt;   mean_mpg
+#&gt; 1 20.09062</code></pre>
+</div>
+</div>
+<p>In order to apply this step in our database, we must assign the data manipulation steps (here as <code>summary</code>) and we must execute the query to retrieve results via the <code>collect()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Get mean with dbplyr</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>summary <span class="ot">&lt;-</span> mtcars_db <span class="sc">|&gt;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_mpg =</span> <span class="fu">mean</span>(mpg))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Collect (execute and retrieve) the result from the db</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>summary <span class="sc">|&gt;</span>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; # A tibble: 1 × 1
+#&gt;   mean_mpg
+#&gt;      &lt;dbl&gt;
+#&gt; 1     20.1</code></pre>
+</div>
+</div>
+<p>What is happening under the hood? How can we apply R code to SQL? The package has a <code>show_query()</code> function which shows the underlying SQL code that we sent to the database.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Inspect SQL query</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>summary <span class="sc">|&gt;</span>  <span class="fu">show_query</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; &lt;SQL&gt;
+#&gt; SELECT AVG(`mpg`) AS `mean_mpg`
+#&gt; FROM `mtcars`</code></pre>
+</div>
+</div>
+<p>The packages has more to offer than I possibly can outline. For example, <code>translate_sql()</code> let you translate SQL code. This may help with your learning curve and it also highlights that there are different SQL dialects depending on the database you work with. Suppose to need to clean data. How can we manipulate strings to lower case in SQL? In R we may use the <code>tolower()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#tolower returns strings in lower case</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tolower</span>(<span class="st">"HeLLo WoRld"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; [1] "hello world"</code></pre>
+</div>
+</div>
+<p>The <code>translate_sql()</code> function translate it to SQL and we can see differences between SQL dialects such as SQLite and Access (<code>LOWER</code> and <code>LCASE</code>) if we simulate different engines (e.g., <code>simulate_sqlite</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Translate with different SQL engines</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">translate_sql</span>(<span class="fu">tolower</span>(<span class="st">"HeLLo WoRld"</span>), <span class="at">con =</span> <span class="fu">simulate_sqlite</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; &lt;SQL&gt; LOWER('HeLLo WoRld')</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">translate_sql</span>(<span class="fu">tolower</span>(<span class="st">"HeLLo WoRld"</span>), <span class="at">con =</span> <span class="fu">simulate_access</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>#&gt; &lt;SQL&gt; LCASE('HeLLo WoRld')</code></pre>
+</div>
+</div>
+<p>Go the <a href="https://dplyr.tidyverse.org/index.html">website</a> to learn more about <code>dbplyr</code>; however, I have one last one last advice for the road.</p>
+</section>
+<section id="document-sql-with-rmarkdown-and-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="document-sql-with-rmarkdown-and-quarto">Document SQL with Rmarkdown and Quarto</h2>
+<p>If I do not work with a language on a regular base, I forget how it works instantly. Thus, code documentation is an important issue. In R we create documents with <code>rmarkdown</code>, but we can also include different languages - including SQL - in an <code>rmarkdown</code> or a Quarto document. Go the rmarkdown <a href="https://rmarkdown.rstudio.com">website</a> if have never created documents with R, because we can create a document with text, (SQL) code, and the output to summarize what you have achieved so far. Moreover, you can be sure that the code contains no mistake since the code runs when the document is created.</p>
+<p>Say we want to document the SQL code from the beginning:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">--Example SQL Code</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">AVG</span>(mpg) <span class="kw">FROM</span> mtcars;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="knitsql-table">
+<table class="table table-sm table-striped">
+<caption>1 records</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">AVG(mpg)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">20.09062</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>First, you need to create the connection to the database. Create a new <code>rmarkdown</code> document and insert the code to create a connection inside the setup-chunk. Second, insert a code chunk into the document, but this time a SQL code chunk and point to the database via the <code>connection</code> chunk-option. This makes it possible to run the SQL code and it returns the output as result. The next code shows how such code chunk looks like in an R Markdown document:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>```{sql connection=con}
+--Example SQL Code
+SELECT AVG(mpg) FROM mtcars;
+```</code></pre>
+</div>
+</div>
+<p>I hope you find the discussed tips helpful, at least, I missed them when I started to learn SQL.</p>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-keyring" class="csl-entry" role="doc-biblioentry">
+Csárdi, Gábor. 2022. <span>“Keyring: Access the System Credential Store from r.”</span> <a href="https://CRAN.R-project.org/package=keyring">https://CRAN.R-project.org/package=keyring</a>.
+</div>
+<div id="ref-sqldf" class="csl-entry" role="doc-biblioentry">
+Grothendieck, G. 2017. <span>“Sqldf: Manipulate r Data Frames Using SQL.”</span> <a href="https://CRAN.R-project.org/package=sqldf">https://CRAN.R-project.org/package=sqldf</a>.
+</div>
+<div id="ref-RSQLite" class="csl-entry" role="doc-biblioentry">
+Müller, Kirill, Hadley Wickham, David A. James, and Seth Falcon. 2023. <span>“RSQLite: SQLite Interface for r.”</span> <a href="https://CRAN.R-project.org/package=RSQLite">https://CRAN.R-project.org/package=RSQLite</a>.
+</div>
+<div id="ref-rstudioapi" class="csl-entry" role="doc-biblioentry">
+Ushey, Kevin, JJ Allaire, Hadley Wickham, and Gary Ritchie. 2023. <span>“Rstudioapi: Safely Access the RStudio API.”</span> <a href="https://CRAN.R-project.org/package=rstudioapi">https://CRAN.R-project.org/package=rstudioapi</a>.
+</div>
+<div id="ref-tidyverse" class="csl-entry" role="doc-biblioentry">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span></span>Tidyverse<span></span>”</span> 4: 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div id="ref-dbplyr" class="csl-entry" role="doc-biblioentry">
+Wickham, Hadley, Maximilian Girlich, and Edgar Ruiz. 2023. <span>“Dbplyr: A ’Dplyr’ Back End for Databases.”</span> <a href="https://CRAN.R-project.org/package=dbplyr">https://CRAN.R-project.org/package=dbplyr</a>.
+</div>
+<div id="ref-DBI" class="csl-entry" role="doc-biblioentry">
+Wickham, Hadley, and Kirill Müller. 2022. <span>“DBI: R Database Interface.”</span> <a href="https://CRAN.R-project.org/package=DBI">https://CRAN.R-project.org/package=DBI</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
