@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Extensions of ggplot2: Geoms</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="03_ggplot2_ext_files/libs/clipboard/clipboard.min.js"></script>
+<script src="03_ggplot2_ext_files/libs/quarto-html/quarto.js"></script>
+<script src="03_ggplot2_ext_files/libs/quarto-html/popper.min.js"></script>
+<script src="03_ggplot2_ext_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="03_ggplot2_ext_files/libs/quarto-html/anchor.min.js"></script>
+<link href="03_ggplot2_ext_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="03_ggplot2_ext_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="03_ggplot2_ext_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="03_ggplot2_ext_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="03_ggplot2_ext_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Extensions of ggplot2: Geoms</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>The last section focused on the grammar of graphics, which emphasized why <code>ggplot2</code> is such a successful package. The acquired knowledge helps you to visualize research findings and the package provides many ways to visualize data. Keep in mind that every visualization was invented for a specific purpose and each visualization has limitations in how efficiently it can communicate findings. For example, a box plot displays the summary of a distribution, but it does not depict the data. Visualizing data goes hand in hand with a reduction of information. In consequence, we may miss some important patterns if we don’t dig deep enough. Or some graphs are not well suited to transport the message.</p>
+<p>There are many additional packages to visualize data.</p>
+<p>Due to the large number of extensions, this section does not provide an all-encompassing overview. Instead, it is like a picture book that shows potential next steps. I concentrated on packages providing an additional geom. You may create any kind of visualization regardless whether a corresponding <code>ggplot2</code> extension exists. Most of the time you will find a lot of helpful resources online even if a specific graph is not implemented as a <code>ggplot2</code> extension. However, it is very convenient if a package provides an extension, since we can build on the acquired knowledge.</p>
+<p>Thus, this section cannot fully appreciate the hard work many authors have put in, but it gives a first impression in three steps: (1) I describe each visualization. (2) I show you an example for each graph. (3) Each subsection ends with a minimal code example to create such a graph with implemented data.</p>
+<p>By relying on implemented data, you get a first impression how these packages work without the hassle of running many data preparation steps. Of course, the fine-tuning will take more time and effort. I hope the minimal examples make it easier to discover the possibilities of visualizing data with R. Now, sit back and get inspired by the many <code>ggplot2</code> authors and extensions.</p>
+<section id="alluvial" class="level2">
+<h2 class="anchored" data-anchor-id="alluvial">Alluvial</h2>
+<p>Alluvial charts are awesome to highlight the flow of a process or how proportions develop over time. As the example plot shows, I used the <code>titanic</code> data which indicates who survived the sinking of the Titanic. The alluvial chart depicts how the three socio-demographic variables (sex, age, class) are related in terms of survival. As the plot shows, most persons who did not survive were male, adults, and crew members.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/Fig_731-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Create an alluvial plot with the <code>ggalluvial</code> package <span class="citation" data-cites="ggalluvial">(see <a href="#ref-ggalluvial" role="doc-biblioref">Brunson and Read 2020</a>)</span>. The <code>geom_stratum()</code> returns boxes that display the frequency of each group level and the <code>geom_alluvium</code> draws the flow from one level to another. The package vignette also outlines how to create an alluvial chart.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example #####</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggalluvial)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#A wide data format</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>titanic_wide_format <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Titanic)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> titanic_wide_format,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">axis1 =</span> Class, <span class="at">axis2 =</span> Sex, <span class="at">axis3 =</span> Age, <span class="at">y =</span> Freq)) <span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_alluvium</span>(<span class="fu">aes</span>(<span class="at">fill =</span> Survived)) <span class="sc">+</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_stratum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="beeswarm-plots" class="level2">
+<h2 class="anchored" data-anchor-id="beeswarm-plots">Beeswarm plots</h2>
+<p>A beeswarm plot is a categorical scatter plot that shows the distribution of a numerical variable, shaped for each category <span class="citation" data-cites="ggbeeswarm">(<a href="#ref-ggbeeswarm" role="doc-biblioref">Clarke and Sherrill-Mix 2017</a>)</span>. Just like a scatter plot, a beeswarm plot displays single observations with points. Unfortunately, sometimes there are too many observations to display, and in consequence, points are no longer visible. Beeswarm plots help to reduce such over-plotting by adding vertical noise.</p>
+<p>For example, the following plot depicts the age of Titanic passengers, compared for those who did (not) survive and single points are colored by passenger’s sex. What do you say, how old were people who did (not) survive? Did more men or women perish?</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/Fig_732-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The <code>ggbeeswarm</code> package includes <code>geom_quasirandom()</code> which adds quasi-random noise to each observation as a default method, even though it has several methods to reduce over-plotting (e.g., <code>pseudorandom</code>, <code>smiley</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example #####</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(titanic)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbeeswarm)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(titanic_train, <span class="fu">aes</span>(Survived, Age, </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">color =</span> Sex)) <span class="sc">+</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_quasirandom</span>(<span class="at">method =</span> <span class="st">"quasirandom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="choropleth-maps" class="level2">
+<h2 class="anchored" data-anchor-id="choropleth-maps">Choropleth maps</h2>
+<p>Create a choropleth map with <code>ggplot2</code>. The latter displays a geographical area (or region) and, for example, fills the shape of the area. The next plot displays the number of arrests in the US. It takes time and effort to create a choropleth map, but the result is worth the trouble.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/Fig_733-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In addition, the <code>ggmap</code> package helps to create maps <span class="citation" data-cites="ggmap ggmap2013">(<a href="#ref-ggmap" role="doc-biblioref">Kahle, Wickham, and Jackson 2019</a>; <a href="#ref-ggmap2013" role="doc-biblioref">Kahle and Wickham 2013</a>)</span>, because we need to draw the shape of each area (e.g., country shape) first. The shape must be displayed by its longitude and latitude before we can fill the area or display numbers that describe the area. The minimal code does not need any additional package and shows an example from the <code>ggplot2</code> cheat sheet. If the corresponding geographical areas can be matched with the data, <code>geom_map()</code> draws the map and fills each area with the observed value.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example #####</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Source: This example comes from the ggplot2 cheat sheet!</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>map <span class="ot">&lt;-</span> <span class="fu">map_data</span>(<span class="st">"state"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">murder =</span> USArrests<span class="sc">$</span>Murder,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">state =</span> <span class="fu">tolower</span>(<span class="fu">rownames</span>(USArrests)))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">fill =</span> murder))<span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_map</span>(<span class="fu">aes</span>(<span class="at">map_id =</span> state), <span class="at">map =</span> map)<span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x =</span> map<span class="sc">$</span>long, <span class="at">y =</span> map<span class="sc">$</span>lat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="dumbbell-and-lollipop-charts" class="level2">
+<h2 class="anchored" data-anchor-id="dumbbell-and-lollipop-charts">Dumbbell and lollipop charts</h2>
+<p>The <code>ggplot2</code> package lets you build a graph from scratch, but creating a visualization is hard work. The <code>ggcharts</code> package is for the lazy cats and gives access to a lot of common charts <span class="citation" data-cites="ggcharts">(<a href="#ref-ggcharts" role="doc-biblioref">Neitmann 2020</a>)</span>. The package has implemented those graphs with its own functions, and we don’t have to create each step on our own. Furthermore, the package returns <code>ggplot2</code> objects, which implies that you can apply your <code>ggplot2</code> knowledge as well.</p>
+<p>For example, create a dumbbell or a lollipop chart. I used the former to examine how life expectancy increased between 1952 and 2007 based on the <code>gapminder</code> data. The example shows the top 10 European countries with the highest increase in life expectancy.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/Fig_734-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example #####</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggcharts)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"popeurope"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dumbbell_chart</span>(popeurope, </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">x =</span> country,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">y1 =</span> pop1952, <span class="at">y2 =</span> pop2007,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">top_n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="hexbin-map" class="level2">
+<h2 class="anchored" data-anchor-id="hexbin-map">Hexbin map</h2>
+<p>Build a hexbin map with <code>ggplot2</code>. It displays hexagons as shapes. Actually, this graph is as an Easter egg since we do not need any additional package to make this plot. There are a lot of great extensions for <code>ggplot2</code>, but you can create many graphs with <code>ggplot2</code> alone and we did not explore all geoms. For example, the <code>geom_polygon()</code> function creates the hexbin map and here it shows US unemployment rates.</p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/Fig_735.png" class="img-fluid" width="1108"></p>
+</div>
+</div>
+<p>The graph is inspired by <a href="www.r-graph-gallery.com">r-graph-gallery.com</a> website. It shows a great variety of (<code>ggplot2</code>) visualization, provides a lot of resources to create plots, and has articles that discuss the limitations of graphs as well. Have you ever seen a radar, a stream, or a sunburst chart? Visit the website and learn how to make them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example #####</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#There are many graphs (and code) to explore on:</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#www.r-graph-gallery.com</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="mosaic-plots" class="level2">
+<h2 class="anchored" data-anchor-id="mosaic-plots">Mosaic plots</h2>
+<p>Mosaic (or spine) plots are very powerful when visualizing descriptive results, and we created one with base R in Chapter 3. However, mosaic plots are also implemented in <code>ggplot2</code>. The <code>ggmosaic()</code> package provides the corresponding geom <span class="citation" data-cites="ggmosaic">(<a href="#ref-ggmosaic" role="doc-biblioref">Jeppson, Hofmann, and Cook 2021</a>)</span>. The illustration uses the <code>titanic</code> data and depicts the effect of passenger’s sex on survival. Obviously, more women than men survived the accident.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/Fig_736-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>As the minimal code illustrates, the <code>geom_mosaic</code> comes with a <code>product()</code> function to estimate frequencies for each category and fills each box accordingly.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example #####</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmosaic)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> titanic) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(Sex), </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">fill =</span> Survived))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ridge-plots" class="level2">
+<h2 class="anchored" data-anchor-id="ridge-plots">Ridge plots</h2>
+<p>Compare the distribution of a numeric variable with a ridge plot <span class="citation" data-cites="ggridges">(<a href="#ref-ggridges" role="doc-biblioref">Wilke 2021</a>)</span>. In the example, I used the <code>gapminder</code> data to inspect how life expectancy differs between continents in 2007. As the plots shows, Europe has the highest, while Africa had the lowest life expectancy. The distribution is much wider in Africa compared to other continents.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/Fig_737-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The <code>ggridges</code> package comes with data and a lot of illustrative examples provided by Claus Wilke, the author of the package. As the code from the vignette illustrates, explore how the weather (temperature) develops within a year.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example #####</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code by Claus Wilke:</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lincoln_weather, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Mean Temperature [F]</span><span class="st">`</span>, <span class="at">y =</span> Month, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">fill =</span> <span class="fu">stat</span>(x))) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_ridges_gradient</span>(<span class="at">scale =</span> <span class="dv">3</span>, </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                               <span class="at">rel_min_height =</span> <span class="fl">0.01</span>) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Temp. [F]"</span>, </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">option =</span> <span class="st">"C"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="treemaps" class="level2">
+<h2 class="anchored" data-anchor-id="treemaps">Treemaps</h2>
+<p>You can visualize hierarchical data with a treemap, because the area of the rectangle is chosen proportionally to the size of each cluster. Before he was banned, Donald Trump was a huge fan of Twitter and Axios collected and categorized his tweets. Some tweets were about <em>the media</em>, <em>democrats</em>, and the grand old party (<em>GOP</em>), with further subgroups within each category. I used this data and the <code>treemapify</code> package to make a treemap <span class="citation" data-cites="treemapify">(<a href="#ref-treemapify" role="doc-biblioref">Wilkins 2021</a>)</span>. Mr.&nbsp;Trump tweeted a lot about “the media” and the “Democrats” in 2019.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/Fig_738-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The data of the last plot is not available, but you can use the <code>gapminder</code> data to explore how <code>treemapify</code> works.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example #####</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(treemapify)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> gapminder<span class="sc">::</span>gapminder <span class="sc">|&gt;</span> </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2007</span> <span class="sc">&amp;</span> continent <span class="sc">==</span> <span class="st">"Europe"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">area =</span> gdpPercap, </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> lifeExp, </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">label =</span> country)) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_treemap</span>() <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_treemap_text</span>(<span class="at">color =</span> <span class="st">"white"</span>, </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">grow =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="waffle-charts" class="level2">
+<h2 class="anchored" data-anchor-id="waffle-charts">Waffle charts</h2>
+<p>Do not make a pie, make a waffle. Waffle charts depict a whole (or part of the whole), and it gives the audience visual clues to assess the size of each group, especially if each square represents exactly one percentage point. The example plot illustrates the “leaky pipeline” in academic careers. Did you know that after each transition step in higher education (e.g., graduation, Ph.D.), more men than women remain in the system? The sex ratios become more and more skewed till the end of the academic pathway. I used a waffle chart to illustrate the leaky pipeline for Germany in 2020.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/Fig_739-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The <code>waffle</code> package makes it easy to create waffle charts <span class="citation" data-cites="waffle">(<a href="#ref-waffle" role="doc-biblioref">Rudis and Gandy 2017</a>)</span>. It only needs a numerical input to create the chart and the function returns a <code>ggplot2</code> object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example #####</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(waffle)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>parts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">66</span>, <span class="dv">22</span>, <span class="dv">12</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">waffle</span>(parts, <span class="at">rows =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="word-clouds" class="level2">
+<h2 class="anchored" data-anchor-id="word-clouds">Word clouds</h2>
+<p>Use a word cloud to depict the result of a text analysis. A word cloud displays, for example, the frequency of words by its font size. The plot shows the word cloud of a children’s book that I made with the <code>ggwordcloud</code> package <span class="citation" data-cites="ggwordcloud">(<a href="#ref-ggwordcloud" role="doc-biblioref">Le Pennec and Slowikowski 2022</a>)</span>. Do you know which one? A white rabbit and the queen of hearts play a big role in this book.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="images/Fig_7310-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Creating a word cloud is not rocket since, but working with text is a complicated topic in the beginning. Fortunately, there is no need to learn text mining first, the <code>ggwordcloud</code> package includes data to make word clouds. Consider reading <em>Text Mining with R</em> by <span class="citation" data-cites="silge_text_2017">Silge and Robinson (<a href="#ref-silge_text_2017" role="doc-biblioref">2017</a>)</span> to learn more about text mining.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Text Mining with R: </span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PracticeR::show_link("text_mining")</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example by Erwan Le Pennec </span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggwordcloud)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#set a seed (starting point)</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(love_words_small, <span class="fu">aes</span>(<span class="at">label =</span> word, </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                             <span class="at">size =</span> speakers)) <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_wordcloud</span>() <span class="sc">+</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>This section introduces packages that extend the possibilities of <code>ggplot2</code>, but there are too many extensions to discuss them all here. Some packages change the way we handle text <span class="citation" data-cites="ggtext">(<code>ggtext</code>, see <a href="#ref-ggtext" role="doc-biblioref">Wilke 2020</a>)</span>; some give us the tools to apply statistical methods <span class="citation" data-cites="survminer">(<code>survminer</code> for survival analysis, see <a href="#ref-survminer" role="doc-biblioref">Kassambara, Kosinski, and Biecek 2021</a>)</span>; and others let us create animated graphs <span class="citation" data-cites="gganimate">(<code>gganimate</code>, see <a href="#ref-gganimate" role="doc-biblioref">Pedersen and Robinson 2022</a>)</span>. Visit the package website to get a broad overview of the possibilities.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The ggplot2 website</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#https://exts.ggplot2.tidyverse.org/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-ggalluvial" class="csl-entry" role="doc-biblioentry">
+Brunson, Jason Cory, and Quentin D. Read. 2020. <em>Ggalluvial: Alluvial Plots in Ggplot2</em>. <a href="https://CRAN.R-project.org/package=ggalluvial">https://CRAN.R-project.org/package=ggalluvial</a>.
+</div>
+<div id="ref-ggbeeswarm" class="csl-entry" role="doc-biblioentry">
+Clarke, Erik, and Scott Sherrill-Mix. 2017. <em>Ggbeeswarm: Categorical Scatter (Violin Point) Plots</em>. <a href="https://CRAN.R-project.org/package=ggbeeswarm">https://CRAN.R-project.org/package=ggbeeswarm</a>.
+</div>
+<div id="ref-ggmosaic" class="csl-entry" role="doc-biblioentry">
+Jeppson, Haley, Heike Hofmann, and Di Cook. 2021. <em>Ggmosaic: Mosaic Plots in the Ggplot2 Framework</em>. <a href="https://CRAN.R-project.org/package=ggmosaic">https://CRAN.R-project.org/package=ggmosaic</a>.
+</div>
+<div id="ref-ggmap2013" class="csl-entry" role="doc-biblioentry">
+Kahle, David, and Hadley Wickham. 2013. <span>“Ggmap: Spatial Visualization with Ggplot2.”</span> <em>The R Journal</em> 5 (1): 144–61. <a href="https://journal.r-project.org/archive/2013-1/kahle-wickham.pdf">https://journal.r-project.org/archive/2013-1/kahle-wickham.pdf</a>.
+</div>
+<div id="ref-ggmap" class="csl-entry" role="doc-biblioentry">
+Kahle, David, Hadley Wickham, and Scott Jackson. 2019. <em>Ggmap: Spatial Visualization with Ggplot2</em>. <a href="https://CRAN.R-project.org/package=ggmap">https://CRAN.R-project.org/package=ggmap</a>.
+</div>
+<div id="ref-survminer" class="csl-entry" role="doc-biblioentry">
+Kassambara, Alboukadel, Marcin Kosinski, and Przemyslaw Biecek. 2021. <em>Survminer: Drawing Survival Curves Using Ggplot2</em>. <a href="https://CRAN.R-project.org/package=survminer">https://CRAN.R-project.org/package=survminer</a>.
+</div>
+<div id="ref-ggwordcloud" class="csl-entry" role="doc-biblioentry">
+Le Pennec, Erwan, and Kamil Slowikowski. 2022. <em>Ggwordcloud: A Word Cloud Geom for Ggplot2</em>.
+</div>
+<div id="ref-ggcharts" class="csl-entry" role="doc-biblioentry">
+Neitmann, Thomas. 2020. <em>Ggcharts: Shorten the Distance from Data Visualization Idea to Actual Plot</em>. <a href="https://CRAN.R-project.org/package=ggcharts">https://CRAN.R-project.org/package=ggcharts</a>.
+</div>
+<div id="ref-gganimate" class="csl-entry" role="doc-biblioentry">
+Pedersen, Thomas Lin, and David Robinson. 2022. <em>Gganimate: A Grammar of Animated Graphics</em>. <a href="https://CRAN.R-project.org/package=gganimate">https://CRAN.R-project.org/package=gganimate</a>.
+</div>
+<div id="ref-waffle" class="csl-entry" role="doc-biblioentry">
+Rudis, Bob, and Dave Gandy. 2017. <em>Waffle: Create Waffle Chart Visualizations in r</em>. <a href="https://CRAN.R-project.org/package=waffle">https://CRAN.R-project.org/package=waffle</a>.
+</div>
+<div id="ref-silge_text_2017" class="csl-entry" role="doc-biblioentry">
+Silge, Julia, and David Robinson. 2017. <em>Text <span>Mining</span> with <span>R</span>: <span>A</span> <span>Tidy</span> <span>Approach</span></em>. Beijing; Boston: O’Reilly.
+</div>
+<div id="ref-ggtext" class="csl-entry" role="doc-biblioentry">
+Wilke, Claus O. 2020. <em>Ggtext: Improved Text Rendering Support for ’Ggplot2’</em>. <a href="https://CRAN.R-project.org/package=ggtext">https://CRAN.R-project.org/package=ggtext</a>.
+</div>
+<div id="ref-ggridges" class="csl-entry" role="doc-biblioentry">
+———. 2021. <em>Ggridges: Ridgeline Plots in ’Ggplot2’</em>. <a href="https://CRAN.R-project.org/package=ggridges">https://CRAN.R-project.org/package=ggridges</a>.
+</div>
+<div id="ref-treemapify" class="csl-entry" role="doc-biblioentry">
+Wilkins, David. 2021. <em>Treemapify: Draw Treemaps in ’Ggplot2’</em>. <a href="https://CRAN.R-project.org/package=treemapify">https://CRAN.R-project.org/package=treemapify</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
