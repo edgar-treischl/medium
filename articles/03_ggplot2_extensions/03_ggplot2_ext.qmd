@@ -1,5 +1,5 @@
 ---
-title: "Extensions of ggplot2: Geoms"
+title: "Ten additional geoms for ggplot2"
 format: html
 bibliography: references.bib
 ---
