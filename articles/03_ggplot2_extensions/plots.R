@@ -463,53 +463,53 @@ dumbbell_plot <- function(variables) {
 
 #title = "Increases of Life Expectancy"
 
-alice_plot <- function(variables) {
-  alice2 <- read_csv("DATA/alice3.txt")
-  alice <- alice2$`Alice in Wonderland`
-  
-  text_df <- tibble(line = 1:824, text = alice)
-  
-  text_df <- text_df %>%
-    unnest_tokens(word, text)
-  
-  data(stop_words)
-  
-  
-  tidy_books <- text_df %>%
-    anti_join(stop_words)
-  
-  df <- tidy_books %>%
-    count(word, sort = TRUE) %>% 
-    filter(n > 7) 
-  
-  harrys <- tibble(word = c("alice"),
-                   lexicon = "SMART")
-  
-  df <- df %>%
-    anti_join(harrys)
-  
-  font_add_google("Delius", "Delius")
-  
-  ## Automatically use showtext to render text for future devices
-  showtext_auto()
-  
-  df <- df %>%
-    mutate(angle = 90 * sample(c(0, 1), n(), replace = TRUE, prob = c(60, 40)))
-  
-  set.seed(123)
-  ggplot(df, aes(label = word, size = n,
-                 angle = angle)) +
-    geom_text_wordcloud_area(color = "black",
-                             family="Delius")+
-    scale_size_area(max_size = 24, trans = power_trans(1/.7))+
-    #scale_size_area(max_size = 24) +  
-    theme_minimal()+
-    theme(text=element_text(family="Delius"))+
-    #labs(title = "Alice in Wonderland")+
-    theme(plot.title = element_text(size=20, face = "bold"))
-  #scale_color_gradient(low = "blue", high = "red")
-  
-}
+# alice_plot <- function(variables) {
+#   alice2 <- read_csv("DATA/alice3.txt")
+#   alice <- alice2$`Alice in Wonderland`
+#   
+#   text_df <- tibble(line = 1:824, text = alice)
+#   
+#   text_df <- text_df %>%
+#     unnest_tokens(word, text)
+#   
+#   data(stop_words)
+#   
+#   
+#   tidy_books <- text_df %>%
+#     anti_join(stop_words)
+#   
+#   df <- tidy_books %>%
+#     count(word, sort = TRUE) %>% 
+#     filter(n > 7) 
+#   
+#   harrys <- tibble(word = c("alice"),
+#                    lexicon = "SMART")
+#   
+#   df <- df %>%
+#     anti_join(harrys)
+#   
+#   font_add_google("Delius", "Delius")
+#   
+#   ## Automatically use showtext to render text for future devices
+#   showtext_auto()
+#   
+#   df <- df %>%
+#     mutate(angle = 90 * sample(c(0, 1), n(), replace = TRUE, prob = c(60, 40)))
+#   
+#   set.seed(123)
+#   ggplot(df, aes(label = word, size = n,
+#                  angle = angle)) +
+#     geom_text_wordcloud_area(color = "black",
+#                              family="Delius")+
+#     scale_size_area(max_size = 24, trans = power_trans(1/.7))+
+#     #scale_size_area(max_size = 24) +  
+#     theme_minimal()+
+#     theme(text=element_text(family="Delius"))+
+#     #labs(title = "Alice in Wonderland")+
+#     theme(plot.title = element_text(size=20, face = "bold"))
+#   #scale_color_gradient(low = "blue", high = "red")
+#   
+# }
 
 tree2 <- function(variables) {
   df <- data.frame(
@@ -537,4 +537,55 @@ tree2 <- function(variables) {
     theme(legend.position = "none")
 }
 
+
+school_alluvial <- function() {
+  
+  df <- tibble::tribble(
+    ~From,                 ~To, ~Freq,  ~Schulwechsel,
+    "MS",     "FS",   863,  "Abstieg",
+    "MS",        "RS", 4899, "Aufstieg",
+    "MS",         "Gym",   312, "Aufstieg",
+    "FS",      "MS",   757, "Aufstieg",
+    "FS",        "RS",    19, "Aufstieg",
+    "FS",         "Gym",     5, "Aufstieg",
+    "RS",     "FS",    51,  "Abstieg",
+    "RS",      "MS", 5669,  "Abstieg",
+    "RS",         "Gym",   311, "Aufstieg",
+    "Gym",     "FS",     6,  "Abstieg",
+    "Gym",      "MS",   766,  "Abstieg",
+    "Gym",        "RS", 7699,  "Abstieg",
+    "Gym",    "FOS", 1227,  "Abstieg")
+  
+  
+  df$To <- factor(df$To,
+                  levels = c("Gym", "FOS", "RS", "MS", "FS"))
+  
+  
+  df$From <- factor(df$From,
+                    levels = c("Gym", "FOS", "RS", "MS", "FS"))
+  
+  
+  
+ggplot(data = df,
+         aes(axis1 = From, axis2 = To, y = Freq)) +
+    geom_alluvium(aes(fill = Schulwechsel), alpha = 0.9) +
+    geom_stratum()+
+    geom_text(stat = "stratum", aes(label = after_stat(stratum)), 
+              size = rel(4))+
+    theme_minimal(base_size = 12, base_family = "Lato")+
+    labs(title = "Change of school type in the 2018/19 school year",
+         caption = "Note: The school types Wirtschaftsschule and Realschule were combined. Data: Official school data from the Bavarian State Office for Statistics")+
+    scale_x_discrete(limits = c("From", "To")) +
+    scale_fill_manual(values = c("#9b2226", "#003566"),
+                      name = "Change of school",
+                      labels = c("Downwards", "Upwards"))+
+    theme(legend.position="bottom")+
+    theme(plot.caption = element_text(color = "darkgray"))
+  
+  
+}
+
+school_alluvial()
+
+?scale_fill_manual
 

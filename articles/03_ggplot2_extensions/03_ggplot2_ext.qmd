@@ -37,7 +37,7 @@ By relying on implemented data, you get a first impression how these packages wo
 Alluvial charts are awesome to highlight the flow of a process or how proportions develop over time\index{graphs!alluvial}. As the example plot shows, I used the `titanic` data which indicates who survived the sinking of the Titanic. The alluvial chart depicts how the three socio-demographic variables (sex, age, class) are related in terms of survival. As the plot shows, most persons who did not survive were male, adults, and crew members.
 
 ```{r Fig_731, echo=FALSE, eval=T, purl=FALSE}
-titanic_alluvial()
+school_alluvial()
 ```
 
 
