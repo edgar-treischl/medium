@@ -142,13 +142,9 @@ div.csl-indent {
 
 </header>
 
-<p>The last section focused on the grammar of graphics, which emphasized why <code>ggplot2</code> is such a successful package. The acquired knowledge helps you to visualize research findings and the package provides many ways to visualize data. Keep in mind that every visualization was invented for a specific purpose and each visualization has limitations in how efficiently it can communicate findings. For example, a box plot displays the summary of a distribution, but it does not depict the data. Visualizing data goes hand in hand with a reduction of information. In consequence, we may miss some important patterns if we don’t dig deep enough. Or some graphs are not well suited to transport the message.</p>
-<p>There are many additional packages to visualize data.</p>
-<p>Due to the large number of extensions, this section does not provide an all-encompassing overview. Instead, it is like a picture book that shows potential next steps. I concentrated on packages providing an additional geom. You may create any kind of visualization regardless whether a corresponding <code>ggplot2</code> extension exists. Most of the time you will find a lot of helpful resources online even if a specific graph is not implemented as a <code>ggplot2</code> extension. However, it is very convenient if a package provides an extension, since we can build on the acquired knowledge.</p>
-<p>Thus, this section cannot fully appreciate the hard work many authors have put in, but it gives a first impression in three steps: (1) I describe each visualization. (2) I show you an example for each graph. (3) Each subsection ends with a minimal code example to create such a graph with implemented data.</p>
-<p>By relying on implemented data, you get a first impression how these packages work without the hassle of running many data preparation steps. Of course, the fine-tuning will take more time and effort. I hope the minimal examples make it easier to discover the possibilities of visualizing data with R. Now, sit back and get inspired by the many <code>ggplot2</code> authors and extensions.</p>
+<p>The <code>ggplot2</code> package provides many possibilities to visualize data and let you create visualizations from the ground. Moreover, there are plenty of <code>ggplot2</code> extensions packages that increase your possibilities and in this blog I concentrate on ten packages providing an additional geom. (1) I describe each visualization briefly. (2) I show an example graph. (3) I provide a minimal code snippet to recreate such a graph with implemented data. By relying on implemented data, there is no hassle of running many data preparation steps if you want to explore one of the packages on your own. Now, relax and get inspired by the many <code>ggplot2</code> authors and extensions.</p>
 <section id="alluvial" class="level2">
-<h2 class="anchored" data-anchor-id="alluvial">Alluvial</h2>
+<h2 class="anchored" data-anchor-id="alluvial">01 Alluvial</h2>
 <p>Alluvial charts are awesome to highlight the flow of a process or how proportions develop over time. As the example plot shows, I used the <code>titanic</code> data which indicates who survived the sinking of the Titanic. The alluvial chart depicts how the three socio-demographic variables (sex, age, class) are related in terms of survival. As the plot shows, most persons who did not survive were male, adults, and crew members.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -170,7 +166,7 @@ div.csl-indent {
 </div>
 </section>
 <section id="beeswarm-plots" class="level2">
-<h2 class="anchored" data-anchor-id="beeswarm-plots">Beeswarm plots</h2>
+<h2 class="anchored" data-anchor-id="beeswarm-plots">02 Beeswarm plots</h2>
 <p>A beeswarm plot is a categorical scatter plot that shows the distribution of a numerical variable, shaped for each category <span class="citation" data-cites="ggbeeswarm">(<a href="#ref-ggbeeswarm" role="doc-biblioref">Clarke and Sherrill-Mix 2017</a>)</span>. Just like a scatter plot, a beeswarm plot displays single observations with points. Unfortunately, sometimes there are too many observations to display, and in consequence, points are no longer visible. Beeswarm plots help to reduce such over-plotting by adding vertical noise.</p>
 <p>For example, the following plot depicts the age of Titanic passengers, compared for those who did (not) survive and single points are colored by passenger’s sex. What do you say, how old were people who did (not) survive? Did more men or women perish?</p>
 <div class="cell">
@@ -181,16 +177,15 @@ div.csl-indent {
 <p>The <code>ggbeeswarm</code> package includes <code>geom_quasirandom()</code> which adds quasi-random noise to each observation as a default method, even though it has several methods to reduce over-plotting (e.g., <code>pseudorandom</code>, <code>smiley</code>).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example #####</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(titanic)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbeeswarm)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(titanic_train, <span class="fu">aes</span>(Survived, Age, </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">color =</span> Sex)) <span class="sc">+</span> </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_quasirandom</span>(<span class="at">method =</span> <span class="st">"quasirandom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbeeswarm)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(species, body_mass_g, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">color =</span> sex)) <span class="sc">+</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_quasirandom</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="choropleth-maps" class="level2">
-<h2 class="anchored" data-anchor-id="choropleth-maps">Choropleth maps</h2>
+<h2 class="anchored" data-anchor-id="choropleth-maps">03 Choropleth maps</h2>
 <p>Create a choropleth map with <code>ggplot2</code>. The latter displays a geographical area (or region) and, for example, fills the shape of the area. The next plot displays the number of arrests in the US. It takes time and effort to create a choropleth map, but the result is worth the trouble.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -211,7 +206,7 @@ div.csl-indent {
 </div>
 </section>
 <section id="dumbbell-and-lollipop-charts" class="level2">
-<h2 class="anchored" data-anchor-id="dumbbell-and-lollipop-charts">Dumbbell and lollipop charts</h2>
+<h2 class="anchored" data-anchor-id="dumbbell-and-lollipop-charts">04 Dumbbell and lollipop charts</h2>
 <p>The <code>ggplot2</code> package lets you build a graph from scratch, but creating a visualization is hard work. The <code>ggcharts</code> package is for the lazy cats and gives access to a lot of common charts <span class="citation" data-cites="ggcharts">(<a href="#ref-ggcharts" role="doc-biblioref">Neitmann 2020</a>)</span>. The package has implemented those graphs with its own functions, and we don’t have to create each step on our own. Furthermore, the package returns <code>ggplot2</code> objects, which implies that you can apply your <code>ggplot2</code> knowledge as well.</p>
 <p>For example, create a dumbbell or a lollipop chart. I used the former to examine how life expectancy increased between 1952 and 2007 based on the <code>gapminder</code> data. The example shows the top 10 European countries with the highest increase in life expectancy.</p>
 <div class="cell">
@@ -231,7 +226,7 @@ div.csl-indent {
 </div>
 </section>
 <section id="hexbin-map" class="level2">
-<h2 class="anchored" data-anchor-id="hexbin-map">Hexbin map</h2>
+<h2 class="anchored" data-anchor-id="hexbin-map">05 Hexbin map</h2>
 <p>Build a hexbin map with <code>ggplot2</code>. It displays hexagons as shapes. Actually, this graph is as an Easter egg since we do not need any additional package to make this plot. There are a lot of great extensions for <code>ggplot2</code>, but you can create many graphs with <code>ggplot2</code> alone and we did not explore all geoms. For example, the <code>geom_polygon()</code> function creates the hexbin map and here it shows US unemployment rates.</p>
 <div class="cell">
 
@@ -249,7 +244,7 @@ div.csl-indent {
 </div>
 </section>
 <section id="mosaic-plots" class="level2">
-<h2 class="anchored" data-anchor-id="mosaic-plots">Mosaic plots</h2>
+<h2 class="anchored" data-anchor-id="mosaic-plots">06 Mosaic plots</h2>
 <p>Mosaic (or spine) plots are very powerful when visualizing descriptive results, and we created one with base R in Chapter 3. However, mosaic plots are also implemented in <code>ggplot2</code>. The <code>ggmosaic()</code> package provides the corresponding geom <span class="citation" data-cites="ggmosaic">(<a href="#ref-ggmosaic" role="doc-biblioref">Jeppson, Hofmann, and Cook 2021</a>)</span>. The illustration uses the <code>titanic</code> data and depicts the effect of passenger’s sex on survival. Obviously, more women than men survived the accident.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -267,7 +262,7 @@ div.csl-indent {
 </div>
 </section>
 <section id="ridge-plots" class="level2">
-<h2 class="anchored" data-anchor-id="ridge-plots">Ridge plots</h2>
+<h2 class="anchored" data-anchor-id="ridge-plots">07 Ridge plots</h2>
 <p>Compare the distribution of a numeric variable with a ridge plot <span class="citation" data-cites="ggridges">(<a href="#ref-ggridges" role="doc-biblioref">Wilke 2021</a>)</span>. In the example, I used the <code>gapminder</code> data to inspect how life expectancy differs between continents in 2007. As the plots shows, Europe has the highest, while Africa had the lowest life expectancy. The distribution is much wider in Africa compared to other continents.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -289,7 +284,7 @@ div.csl-indent {
 </div>
 </section>
 <section id="treemaps" class="level2">
-<h2 class="anchored" data-anchor-id="treemaps">Treemaps</h2>
+<h2 class="anchored" data-anchor-id="treemaps">08 Treemaps</h2>
 <p>You can visualize hierarchical data with a treemap, because the area of the rectangle is chosen proportionally to the size of each cluster. Before he was banned, Donald Trump was a huge fan of Twitter and Axios collected and categorized his tweets. Some tweets were about <em>the media</em>, <em>democrats</em>, and the grand old party (<em>GOP</em>), with further subgroups within each category. I used this data and the <code>treemapify</code> package to make a treemap <span class="citation" data-cites="treemapify">(<a href="#ref-treemapify" role="doc-biblioref">Wilkins 2021</a>)</span>. Mr.&nbsp;Trump tweeted a lot about “the media” and the “Democrats” in 2019.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -314,7 +309,7 @@ div.csl-indent {
 </div>
 </section>
 <section id="waffle-charts" class="level2">
-<h2 class="anchored" data-anchor-id="waffle-charts">Waffle charts</h2>
+<h2 class="anchored" data-anchor-id="waffle-charts">09 Waffle charts</h2>
 <p>Do not make a pie, make a waffle. Waffle charts depict a whole (or part of the whole), and it gives the audience visual clues to assess the size of each group, especially if each square represents exactly one percentage point. The example plot illustrates the “leaky pipeline” in academic careers. Did you know that after each transition step in higher education (e.g., graduation, Ph.D.), more men than women remain in the system? The sex ratios become more and more skewed till the end of the academic pathway. I used a waffle chart to illustrate the leaky pipeline for Germany in 2020.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -331,8 +326,8 @@ div.csl-indent {
 </div>
 </section>
 <section id="word-clouds" class="level2">
-<h2 class="anchored" data-anchor-id="word-clouds">Word clouds</h2>
-<p>Use a word cloud to depict the result of a text analysis. A word cloud displays, for example, the frequency of words by its font size. The plot shows the word cloud of a children’s book that I made with the <code>ggwordcloud</code> package <span class="citation" data-cites="ggwordcloud">(<a href="#ref-ggwordcloud" role="doc-biblioref">Le Pennec and Slowikowski 2022</a>)</span>. Do you know which one? A white rabbit and the queen of hearts play a big role in this book.</p>
+<h2 class="anchored" data-anchor-id="word-clouds">10 Word clouds</h2>
+<p>Use a word cloud to depict the result of a text analysis. A word cloud displays, for example, the frequency of words by its font size. The plot shows the word cloud of a children’s book that I made with the <code>ggwordcloud</code> package <span class="citation" data-cites="ggwordcloud">(<a href="#ref-ggwordcloud" role="doc-biblioref">Le Pennec and Slowikowski 2022</a>)</span>. Do you know which one? Witches and wizards play a big role in this book.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="images/Fig_7310-1.png" class="img-fluid" width="672"></p>
@@ -340,27 +335,21 @@ div.csl-indent {
 </div>
 <p>Creating a word cloud is not rocket since, but working with text is a complicated topic in the beginning. Fortunately, there is no need to learn text mining first, the <code>ggwordcloud</code> package includes data to make word clouds. Consider reading <em>Text Mining with R</em> by <span class="citation" data-cites="silge_text_2017">Silge and Robinson (<a href="#ref-silge_text_2017" role="doc-biblioref">2017</a>)</span> to learn more about text mining.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Text Mining with R: </span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PracticeR::show_link("text_mining")</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example by Erwan Le Pennec </span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggwordcloud)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#set a seed (starting point)</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(love_words_small, <span class="fu">aes</span>(<span class="at">label =</span> word, </span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                             <span class="at">size =</span> speakers)) <span class="sc">+</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_wordcloud</span>() <span class="sc">+</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Minimal code example by Erwan Le Pennec </span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggwordcloud)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#set a seed (starting point)</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(love_words_small, <span class="fu">aes</span>(<span class="at">label =</span> word, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">size =</span> speakers)) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_wordcloud</span>() <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>This section introduces packages that extend the possibilities of <code>ggplot2</code>, but there are too many extensions to discuss them all here. Some packages change the way we handle text <span class="citation" data-cites="ggtext">(<code>ggtext</code>, see <a href="#ref-ggtext" role="doc-biblioref">Wilke 2020</a>)</span>; some give us the tools to apply statistical methods <span class="citation" data-cites="survminer">(<code>survminer</code> for survival analysis, see <a href="#ref-survminer" role="doc-biblioref">Kassambara, Kosinski, and Biecek 2021</a>)</span>; and others let us create animated graphs <span class="citation" data-cites="gganimate">(<code>gganimate</code>, see <a href="#ref-gganimate" role="doc-biblioref">Pedersen and Robinson 2022</a>)</span>. Visit the package website to get a broad overview of the possibilities.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The ggplot2 website</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#https://exts.ggplot2.tidyverse.org/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>This blog highlighted packages to extend the possibilities of <code>ggplot2</code>, but there are too many to discuss them all. For example, <code>ggtext</code> helps to handle text <span class="citation" data-cites="ggtext">(<a href="#ref-ggtext" role="doc-biblioref">Wilke 2020</a>)</span>; you can visualize the results of a survival analysis with <code>survminer</code> <span class="citation" data-cites="survminer">(<a href="#ref-survminer" role="doc-biblioref">Kassambara, Kosinski, and Biecek 2021</a>)</span>; or create cool animations with <code>gganimate</code> <span class="citation" data-cites="gganimate">(<a href="#ref-gganimate" role="doc-biblioref">Pedersen and Robinson 2022</a>)</span>.</p>
+<p>Finally, go and visit the <a href="https://exts.ggplot2.tidyverse.org/">ggplot2 website</a> to explore more extensions.</p>
 
 </section>
 

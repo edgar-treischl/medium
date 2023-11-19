@@ -20,28 +20,17 @@ source("plots.R")
 
 ```
 
+The `ggplot2` package provides many possibilities to visualize data and let you create visualizations from the ground. Moreover, there are plenty of `ggplot2` extensions packages that increase your possibilities and in this blog I concentrate on ten packages providing an additional geom. (1) I describe each visualization briefly. (2) I show an example graph. (3) I provide a minimal code snippet to recreate such a graph with implemented data. By relying on implemented data, there is no hassle of running many data preparation steps if you want to explore one of the packages on your own. Now, relax and get inspired by the many `ggplot2` authors and extensions.
 
-The last section focused on the grammar of graphics, which emphasized why `ggplot2` is such a successful package. The acquired knowledge helps you to visualize research findings and the package provides many ways to visualize data. Keep in mind that every visualization was invented for a specific purpose and each visualization has limitations in how efficiently it can communicate findings. For example, a box plot displays the summary of a distribution, but it does not depict the data. Visualizing data goes hand in hand with a reduction of information. In consequence, we may miss some important patterns if we don't dig deep enough. Or some graphs are not well suited to transport the message.
+## 01 Alluvial
 
-There are many additional packages to visualize data. 
-
-Due to the large number of extensions, this section does not provide an all-encompassing overview. Instead, it is like a picture book that shows potential next steps. I concentrated on packages providing an additional geom. You may create any kind of visualization regardless whether a corresponding `ggplot2` extension exists. Most of the time you will find a lot of helpful resources online even if a specific graph is not implemented as a `ggplot2` extension. However, it is very convenient if a package provides an extension, since we can build on the acquired knowledge.
-
-Thus, this section cannot fully appreciate the hard work many authors have put in, but it gives a first impression in three steps: (1) I describe each visualization. (2) I show you an example for each graph. (3) Each subsection ends with a minimal code example to create such a graph with implemented data. 
-
-
-By relying on implemented data, you get a first impression how these packages work without the hassle of running many data preparation steps. Of course, the fine-tuning will take more time and effort. I hope the minimal examples make it easier to discover the possibilities of visualizing data with R. Now, sit back and get inspired by the many `ggplot2` authors and extensions.
-
-## Alluvial
-
-Alluvial charts are awesome to highlight the flow of a process or how proportions develop over time\index{graphs!alluvial}. As the example plot shows, I used the `titanic` data which indicates who survived the sinking of the Titanic. The alluvial chart depicts how the three socio-demographic variables (sex, age, class) are related in terms of survival. As the plot shows, most persons who did not survive were male, adults, and crew members.
+Alluvial charts are awesome to highlight the flow of a process or how proportions develop over time. As the example plot shows, I used the `titanic` data which indicates who survived the sinking of the Titanic. The alluvial chart depicts how the three socio-demographic variables (sex, age, class) are related in terms of survival. As the plot shows, most persons who did not survive were male, adults, and crew members.
 
 ```{r Fig_731, echo=FALSE, eval=T, purl=FALSE}
-titanic_alluvial()
+school_alluvial()
 ```
 
-
-Create an alluvial plot with the `ggalluvial` package [see @ggalluvial]\index{package!ggalluvial}. The `geom_stratum()` returns boxes that display the frequency of each group level and the `geom_alluvium` draws the flow from one level to another. The package vignette also outlines how to create an alluvial chart.
+Create an alluvial plot with the `ggalluvial` package [see @ggalluvial]. The `geom_stratum()` returns boxes that display the frequency of each group level and the `geom_alluvium` draws the flow from one level to another. The package vignette also outlines how to create an alluvial chart.
 
 ```{r, results='hide', fig.keep='none'}
 #Minimal code example #####
@@ -57,45 +46,37 @@ ggplot(data = titanic_wide_format,
 
 ```
 
+## 02 Beeswarm plots
 
-
-## Beeswarm plots 
-
-A beeswarm plot is a categorical scatter plot that shows the distribution of a numerical variable, shaped for each category [@ggbeeswarm]. Just like a scatter plot, a beeswarm plot\index{graphs!beeswarm} displays single observations with points. Unfortunately, sometimes there are too many observations to display, and in consequence, points are no longer visible. Beeswarm plots help to reduce such over-plotting by adding vertical noise.
+A beeswarm plot is a categorical scatter plot that shows the distribution of a numerical variable, shaped for each category [@ggbeeswarm]. Just like a scatter plot, a beeswarm plot displays single observations with points. Unfortunately, sometimes there are too many observations to display, and in consequence, points are no longer visible. Beeswarm plots help to reduce such over-plotting by adding vertical noise.
 
 For example, the following plot depicts the age of Titanic passengers, compared for those who did (not) survive and single points are colored by passenger's sex. What do you say, how old were people who did (not) survive? Did more men or women perish?
 
 ```{r Fig_732, eval=T, echo=FALSE, purl=FALSE}
-beeplot()
+bees()
 ```
 
-
-The `ggbeeswarm` package\index{package!ggbeeswarm} includes `geom_quasirandom()` which adds quasi-random noise to each observation as a default method, even though it has several methods to reduce over-plotting (e.g., `pseudorandom`, `smiley`).
+The `ggbeeswarm` package includes `geom_quasirandom()` which adds quasi-random noise to each observation as a default method, even though it has several methods to reduce over-plotting (e.g., `pseudorandom`, `smiley`).
 
 ```{r  results='hide', fig.keep='none'}
 #Minimal code example #####
-library(titanic)
 library(ggbeeswarm)
 
-ggplot(titanic_train, aes(Survived, Age, 
-                          color = Sex)) + 
-  geom_quasirandom(method = "quasirandom")
-
+ggplot(penguins, aes(species, body_mass_g, 
+                     color = sex)) + 
+    geom_quasirandom()
 ```
 
+## 03 Choropleth maps
 
-
-## Choropleth maps 
-
-Create a choropleth map\index{graphs!choropleth map} with `ggplot2`. The latter displays a geographical area (or region) and, for example, fills the shape of the area. The next plot displays the number of arrests in the US. It takes time and effort to create a choropleth map, but the result is worth the trouble.
+Create a choropleth map with `ggplot2`. The latter displays a geographical area (or region) and, for example, fills the shape of the area. The next plot displays the number of arrests in the US. It takes time and effort to create a choropleth map, but the result is worth the trouble.
 
 ```{r Fig_733, echo=FALSE, eval=T, purl=FALSE}
 map_plot()
 
 ```
 
-
-In addition, the `ggmap` package\index{package!ggmap} helps to create maps [@ggmap; @ggmap2013], because we need to draw the shape of each area (e.g., country shape) first. The shape must be displayed by its longitude and latitude before we can fill the area or display numbers that describe the area. The minimal code does not need any additional package and shows an example from the `ggplot2` cheat sheet. If the corresponding geographical areas can be matched with the data, `geom_map()` draws the map and fills each area with the observed value.
+In addition, the `ggmap` package helps to create maps [@ggmap; @ggmap2013], because we need to draw the shape of each area (e.g., country shape) first. The shape must be displayed by its longitude and latitude before we can fill the area or display numbers that describe the area. The minimal code does not need any additional package and shows an example from the `ggplot2` cheat sheet. If the corresponding geographical areas can be matched with the data, `geom_map()` draws the map and fills each area with the observed value.
 
 ```{r,  results='hide', fig.keep='none'}
 #Minimal code example #####
@@ -110,19 +91,15 @@ ggplot(data, aes(fill = murder))+
 
 ```
 
+## 04 Dumbbell and lollipop charts
 
+The `ggplot2` package lets you build a graph from scratch, but creating a visualization is hard work. The `ggcharts` package is for the lazy cats and gives access to a lot of common charts [@ggcharts]. The package has implemented those graphs with its own functions, and we don't have to create each step on our own. Furthermore, the package returns `ggplot2` objects, which implies that you can apply your `ggplot2` knowledge as well.
 
-## Dumbbell and lollipop charts
-
-The `ggplot2` package lets you build a graph from scratch, but creating a visualization is hard work. The `ggcharts` package\index{package!ggcharts} is for the lazy cats and gives access to a lot of common charts [@ggcharts]. The package has implemented those graphs with its own functions, and we don't have to create each step on our own. Furthermore, the package returns `ggplot2` objects, which implies that you can apply your `ggplot2` knowledge as well.
-
-For example, create a dumbbell\index{graphs!dumbbell} or a lollipop chart\index{graphs!lollipop}. I used the former to examine how life expectancy increased between 1952 and 2007 based on the `gapminder` data. The example shows the top 10 European countries with the highest increase in life expectancy.
+For example, create a dumbbell or a lollipop chart. I used the former to examine how life expectancy increased between 1952 and 2007 based on the `gapminder` data. The example shows the top 10 European countries with the highest increase in life expectancy.
 
 ```{r Fig_734, echo=FALSE, eval=T, purl=FALSE}
 dumbbell_plot()
 ```
-
-
 
 ```{r,  results='hide', fig.keep='none'}
 #Minimal code example #####
@@ -135,21 +112,17 @@ dumbbell_chart(popeurope,
                top_n = 10)
 ```
 
+## 05 Hexbin map
 
-
-## Hexbin map
-
-Build a hexbin map\index{graphs!hexbin map} with `ggplot2`. It displays hexagons as shapes. Actually, this graph is as an Easter egg since we do not need any additional package to make this plot. There are a lot of great extensions for `ggplot2`, but you can create many graphs with `ggplot2` alone and we did not explore all geoms. For example, the `geom_polygon()` function creates the hexbin map and here it shows US unemployment rates.
+Build a hexbin map with `ggplot2`. It displays hexagons as shapes. Actually, this graph is as an Easter egg since we do not need any additional package to make this plot. There are a lot of great extensions for `ggplot2`, but you can create many graphs with `ggplot2` alone and we did not explore all geoms. For example, the `geom_polygon()` function creates the hexbin map and here it shows US unemployment rates.
 
 ```{r Fig_735, echo=FALSE, eval=F, purl=FALSE}
 hexbin_plot()
 ```
 
-
 ```{r, echo=FALSE, purl=FALSE, fig.cap=''}
 knitr::include_graphics('images/Fig_735.png')
 ```
-
 
 The graph is inspired by [r-graph-gallery.com](www.r-graph-gallery.com) website. It shows a great variety of (`ggplot2`) visualization, provides a lot of resources to create plots, and has articles that discuss the limitations of graphs as well. Have you ever seen a radar, a stream, or a sunburst chart? Visit the website and learn how to make them.
 
@@ -159,17 +132,13 @@ The graph is inspired by [r-graph-gallery.com](www.r-graph-gallery.com) website.
 #www.r-graph-gallery.com
 ```
 
+## 06 Mosaic plots
 
-
-## Mosaic plots
-
-Mosaic (or spine) plots are very powerful when visualizing descriptive results, and we created one with base R\index{graphs!mosaic} in Chapter 3. However, mosaic plots are also implemented in `ggplot2`. The `ggmosaic()` package\index{package!ggmosaic} provides the corresponding geom [@ggmosaic]. The illustration uses the `titanic` data and depicts the effect of passenger's sex on survival. Obviously, more women than men survived the accident.
+Mosaic (or spine) plots are very powerful when visualizing descriptive results, and we created one with base R in Chapter 3. However, mosaic plots are also implemented in `ggplot2`. The `ggmosaic()` package provides the corresponding geom [@ggmosaic]. The illustration uses the `titanic` data and depicts the effect of passenger's sex on survival. Obviously, more women than men survived the accident.
 
 ```{r Fig_736, echo=FALSE, eval=T, purl=FALSE}
 mosaic_plot2()
 ```
-
-
 
 As the minimal code illustrates, the `geom_mosaic` comes with a `product()` function to estimate frequencies for each category and fills each box accordingly.
 
@@ -183,17 +152,15 @@ ggplot(data = titanic) +
 
 ```
 
+## 07 Ridge plots
 
-
-## Ridge plots
-
-Compare the distribution of a numeric variable with a ridge plot [@ggridges]\index{graphs!ridge}. In the example, I used the `gapminder` data to inspect how life expectancy differs between continents in 2007. As the plots shows, Europe has the highest, while Africa had the lowest life expectancy. The distribution is much wider in Africa compared to other continents.
+Compare the distribution of a numeric variable with a ridge plot [@ggridges]. In the example, I used the `gapminder` data to inspect how life expectancy differs between continents in 2007. As the plots shows, Europe has the highest, while Africa had the lowest life expectancy. The distribution is much wider in Africa compared to other continents.
 
 ```{r Fig_737, echo=FALSE, eval=T, purl=FALSE}
 ridge_plot()
 ```
 
-The `ggridges` package\index{package!ggridges} comes with data and a lot of illustrative examples provided by Claus Wilke, the author of the package. As the code from the vignette illustrates, explore how the weather (temperature) develops within a year.
+The `ggridges` package comes with data and a lot of illustrative examples provided by Claus Wilke, the author of the package. As the code from the vignette illustrates, explore how the weather (temperature) develops within a year.
 
 ```{r, results='hide', fig.keep='none'}
 #Minimal code example #####
@@ -208,18 +175,14 @@ ggplot(lincoln_weather, aes(x = `Mean Temperature [F]`, y = Month,
                        option = "C") 
 ```
 
+## 08 Treemaps
 
-
-
-## Treemaps
-
-You can visualize hierarchical data with a treemap\index{graphs!treemap}, because the area of the rectangle is chosen proportionally to the size of each cluster. Before he was banned, Donald Trump was a huge fan of Twitter and Axios collected and categorized his tweets. Some tweets were about *the media*, *democrats*, and the grand old party (*GOP*), with further subgroups within each category. I used this data and the `treemapify` package\index{package!treemapify} to make a treemap [@treemapify]. Mr. Trump tweeted a lot about "the media" and the "Democrats" in 2019.
+You can visualize hierarchical data with a treemap, because the area of the rectangle is chosen proportionally to the size of each cluster. Before he was banned, Donald Trump was a huge fan of Twitter and Axios collected and categorized his tweets. Some tweets were about *the media*, *democrats*, and the grand old party (*GOP*), with further subgroups within each category. I used this data and the `treemapify` package to make a treemap [@treemapify]. Mr. Trump tweeted a lot about "the media" and the "Democrats" in 2019.
 
 ```{r Fig_738, echo=FALSE, eval=T, purl=FALSE}
 tree_map()
 #tree2()
 ```
-
 
 The data of the last plot is not available, but you can use the `gapminder` data to explore how `treemapify` works.
 
@@ -239,20 +202,16 @@ ggplot(data, aes(area = gdpPercap,
                     grow = TRUE)
 ```
 
+## 09 Waffle charts
 
-
-## Waffle charts
-
-Do not make a pie, make a waffle\index{graphs!waffle}. Waffle charts depict a whole (or part of the whole), and it gives the audience visual clues to assess the size of each group, especially if each square represents exactly one percentage point. The example plot illustrates the "leaky pipeline" in academic careers. Did you know that after each transition step in higher education (e.g., graduation, Ph.D.), more men than women remain in the system? The sex ratios become more and more skewed till the end of the academic pathway. I used a waffle chart to illustrate the leaky pipeline for Germany in 2020.
+Do not make a pie, make a waffle. Waffle charts depict a whole (or part of the whole), and it gives the audience visual clues to assess the size of each group, especially if each square represents exactly one percentage point. The example plot illustrates the "leaky pipeline" in academic careers. Did you know that after each transition step in higher education (e.g., graduation, Ph.D.), more men than women remain in the system? The sex ratios become more and more skewed till the end of the academic pathway. I used a waffle chart to illustrate the leaky pipeline for Germany in 2020.
 
 ```{r Fig_739, echo=FALSE, eval=T, purl=FALSE}
 # fig.cap = "\\label{9}A waffle chart example"
 waffle_plot()
 ```
 
-
-
-The `waffle` package\index{package!waffle} makes it easy to create waffle charts [@waffle]. It only needs a numerical input to create the chart and the function returns a `ggplot2` object.
+The `waffle` package makes it easy to create waffle charts [@waffle]. It only needs a numerical input to create the chart and the function returns a `ggplot2` object.
 
 ```{r, results='hide', fig.keep='none'}
 #Minimal code example #####
@@ -262,25 +221,18 @@ parts <- c(66, 22, 12)
 waffle(parts, rows = 10)
 ```
 
+## 10 Word clouds
 
-
-
-## Word clouds
-
-Use a word cloud\index{graphs!word cloud} to depict the result of a text analysis. A word cloud displays, for example, the frequency of words by its font size. The plot shows the word cloud of a children's book that I made with the `ggwordcloud` package\index{package!ggwordcloud} [@ggwordcloud]. Do you know which one? A white rabbit and the queen of hearts play a big role in this book.
+Use a word cloud to depict the result of a text analysis. A word cloud displays, for example, the frequency of words by its font size. The plot shows the word cloud of a children's book that I made with the `ggwordcloud` package [@ggwordcloud]. Do you know which one? Witches and wizards play a big role in this book.
 
 ```{r Fig_7310, echo=FALSE, eval=T, purl=FALSE}
 wordle_plot()
 #alice_plot()
 ```
 
-
 Creating a word cloud is not rocket since, but working with text is a complicated topic in the beginning. Fortunately, there is no need to learn text mining first, the `ggwordcloud` package includes data to make word clouds. Consider reading *Text Mining with R* by @silge_text_2017 to learn more about text mining.
 
 ```{r, eval=FALSE}
-#Text Mining with R: 
-#PracticeR::show_link("text_mining")
-
 #Minimal code example by Erwan Le Pennec 
 library(ggwordcloud)
 #set a seed (starting point)
@@ -294,9 +246,6 @@ ggplot(love_words_small, aes(label = word,
 
 ## Summary
 
-This section introduces packages that extend the possibilities of `ggplot2`, but there are too many extensions to discuss them all here. Some packages change the way we handle text [`ggtext`, see @ggtext]\index{package!ggtext}; some give us the tools to apply statistical methods [`survminer` for survival analysis, see @survminer]\index{package!survminer}; and others let us create animated graphs [`gganimate`, see @gganimate]\index{package!gganimate}. Visit the package website to get a broad overview of the possibilities.
+This blog highlighted packages to extend the possibilities of `ggplot2`, but there are too many to discuss them all. For example, `ggtext` helps to handle text [@ggtext]; you can visualize the results of a survival analysis with `survminer` [@survminer]; or create cool animations with `gganimate` [@gganimate].
 
-```{r}
-#The ggplot2 website
-#https://exts.ggplot2.tidyverse.org/
-```
+Finally, go and visit the [ggplot2 website](https://exts.ggplot2.tidyverse.org/) to explore more extensions.

@@ -1,9 +1,21 @@
 #00 SETUP#########
-library(tidyverse)
+#library(tidyverse)
+#Checked
+library(showtext)
+library(patchwork)
+library(waffle)
+library(ggplot2)
 library(ggalluvial)
-library(titanic)
+library(magrittr)
+library(dplyr)
+#library(titanic)
 library(ggmosaic)
 library(ggbeeswarm)
+
+library(tidyr)
+library(palmerpenguins)
+
+
 #library(rgeos)
 library(geojsonio)
 library(broom)
@@ -15,7 +27,7 @@ library(ggridges)
 #library(forcats)
 
 library(tidytext)
-library(showtext)
+
 
 #you need dev version of ggwordcloud
 #devtools::install_github("lepennec/ggwordcloud")
@@ -26,8 +38,7 @@ library(ggcharts)
 library(gapminder)
 library(cowplot)
 library(forcats)
-library(patchwork)
-library(waffle)
+
 
 font_add_google("Lato", "Lato")
 #font_add_google("Combo", "Combo")
@@ -38,23 +49,54 @@ showtext_auto()
 
 
 #01 Alluvial#########
-titanic_alluvial <- function(variables) {
-  titanic_df <- data.frame(Titanic)
+
+school_alluvial <- function() {
   
-  ggplot(data = titanic_df, aes(axis1 = Sex, axis2 = Class, y = Freq)) +
-    scale_x_discrete(limits = c("Class", "Sex"), expand = c(.2, .05)) +
-    xlab("Group") +
-    geom_alluvium(aes(fill = Survived),  alpha = 0.8) +
-    geom_stratum() +
-    geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = rel(3.5)) +
-    theme_minimal(base_size = 12, base_family ="Lato")+
-    scale_fill_manual(values = c("#780000","#003049")) +
-    theme(legend.position="bottom")
+  df <- tibble::tribble(
+    ~From,                 ~To, ~Freq,  ~Schulwechsel,
+    "MS",     "FS",   863,  "Abstieg",
+    "MS",        "RS", 4899, "Aufstieg",
+    "MS",         "Gym",   312, "Aufstieg",
+    "FS",      "MS",   757, "Aufstieg",
+    "FS",        "RS",    19, "Aufstieg",
+    "FS",         "Gym",     5, "Aufstieg",
+    "RS",     "FS",    51,  "Abstieg",
+    "RS",      "MS", 5669,  "Abstieg",
+    "RS",         "Gym",   311, "Aufstieg",
+    "Gym",     "FS",     6,  "Abstieg",
+    "Gym",      "MS",   766,  "Abstieg",
+    "Gym",        "RS", 7699,  "Abstieg",
+    "Gym",    "FOS", 1227,  "Abstieg")
+  
+  
+  df$To <- factor(df$To,
+                  levels = c("Gym", "FOS", "RS", "MS", "FS"))
+  
+  
+  df$From <- factor(df$From,
+                    levels = c("Gym", "FOS", "RS", "MS", "FS"))
+  
+  
+  
+  ggplot(data = df,
+         aes(axis1 = From, axis2 = To, y = Freq)) +
+    geom_alluvium(aes(fill = Schulwechsel), alpha = 0.9) +
+    geom_stratum()+
+    geom_text(stat = "stratum", aes(label = after_stat(stratum)), 
+              size = rel(4))+
+    theme_minimal(base_size = 14, base_family = "Lato")+
+    labs(title = "Change of school type (2018/19)",
+         caption = "Data: Official data from the Bavarian State Office for Statistics.")+
+    scale_x_discrete(limits = c("From", "To")) +
+    scale_fill_manual(values = c("#9b2226", "#003566"),
+                      name = "Change of school",
+                      labels = c("Downwards", "Upwards"))+
+    theme(legend.position="bottom")+
+    theme(plot.caption = element_text(color = "darkgray"))
+  
   
 }
 
-
-titanic_alluvial()
 
 
 
@@ -187,24 +229,41 @@ mosaic_plot2 <- function(variables) {
 
 #04 BEESWARM#########
 
-beeplot <- function(variables) {
-  titanic_df<-as.data.frame(titanic_train) 
+# beeplot <- function(variables) {
+#   titanic_df<-as.data.frame(titanic_train) 
+#   
+#   titanic_df$Survived <- factor(titanic_df$Survived, 
+#                                 levels = c(0, 1),
+#                                 labels = c("Not survived", "Survived")) 
+#   
+#   titanic_df$sex2 <- factor(titanic_df$Sex,
+#                             levels = c("male", "female"),
+#                             labels = c("Men", "Women"))
+#   
+#   ggplot(titanic_df, aes(Survived, Age, color = Sex)) + 
+#     geom_quasirandom(size = 1, width = 0.5)+
+#     scale_color_manual(values=c("#0057AD", "#C70C0B"))+
+#     #scale_color_manual(values=c("#94d2bd", "#005f73"))+
+#     theme_minimal(base_size = 12, base_family ="Lato")+
+#     theme(legend.position="bottom")
+#   #theme(text=element_text(family="DGMetaScience", size=12, face="bold"))
+#   
+# }
+
+bees <- function() {
   
-  titanic_df$Survived <- factor(titanic_df$Survived, 
-                                levels = c(0, 1),
-                                labels = c("Not survived", "Survived")) 
+  penguins <- tidyr::drop_na(penguins)
   
-  titanic_df$sex2 <- factor(titanic_df$Sex,
-                            levels = c("male", "female"),
-                            labels = c("Men", "Women"))
+  ggplot(penguins, aes(species, body_mass_g, color = sex)) + 
+    geom_quasirandom(size = 1.3, width = 0.5)+
+    scale_color_manual(values=c("#94d2bd", "#005f73"),
+                       name = "Sex",
+                       labels = c("Female", "Male"))+
+    theme_minimal(base_size = 14, base_family ="Lato")+
+    theme(legend.position="bottom")+
+    labs(y = "Body mass (g)",
+         x = "Species")
   
-  ggplot(titanic_df, aes(Survived, Age, color = Sex)) + 
-    geom_quasirandom(size = 1, width = 0.5)+
-    scale_color_manual(values=c("#0057AD", "#C70C0B"))+
-    #scale_color_manual(values=c("#94d2bd", "#005f73"))+
-    theme_minimal(base_size = 12, base_family ="Lato")+
-    theme(legend.position="bottom")
-  #theme(text=element_text(family="DGMetaScience", size=12, face="bold"))
   
 }
 
@@ -221,13 +280,11 @@ map_plot <- function(variables) {
     expand_limits(x = map$long, y = map$lat)+
     xlab("Longitude")+
     ylab("Latitude")+
-    scale_fill_continuous(type = "gradient", name="Arrest in the US", 
+    scale_fill_continuous(type = "viridis", name="Arrest in the US", 
                           guide="colorbar",na.value="white", trans = 'reverse')+
     theme_minimal(base_size = 12, base_family ="Lato")+
     
     theme(legend.position="bottom")
-  #gradient or viridis + theme(text=element_text(family="DGMetaScience", size=12, face="bold"))
-  
 }
 
 
@@ -303,11 +360,13 @@ ridge_plot <- function(variables) {
 waffle_plot <- function(variables) {
   students <- c(`Female`= 49, `Male`= 51)
   
+  
+  
   w1 <- waffle(students, rows=10, size=1, 
-               colors=c("#3C5A8A", "#D3D3D3"), 
+               colors=c("#012a4a", "#89c2d9"), 
                title="Share of Students", flip = T)+
     theme(plot.title = element_text(size=12),
-          text=element_text(family="Lato"))+
+          text=element_text(family="Times"))+
     theme(legend.position="bottom")
   
   
@@ -315,52 +374,51 @@ waffle_plot <- function(variables) {
   
   
   w2 <- waffle(absolventen, rows=10, size=1,
-               colors=c("#3C5A8A", "#D3D3D3"),
+               colors=c("#012a4a", "#89c2d9"), 
                title="Graduates", flip = T,
                legend_pos = "none")+
-    theme(plot.title = element_text(size=9),
-          text=element_text(family="Lato")
-    )
+    theme(plot.title = element_text(size=12),
+          text=element_text(family="Lato"))
   
   phd <- c(`Women`= 45, `Men`= 55)
   
   w3 <- waffle(phd, rows=10, size=1, 
-               colors=c("#3C5A8A", "#D3D3D3"), 
+               colors=c("#012a4a", "#89c2d9"), 
                title="Ph.D.s", flip = T, legend_pos = "none")+
-    theme(plot.title = element_text(size=9),
-          text=element_text(family="Lato")
-    )
+    theme(plot.title = element_text(size=12),
+          text=element_text(family="Lato"))
   
   
   habil <- c(`Women`= 32, `Men`= 68)
   
   w4 <- waffle(habil, rows=10, size=1, 
-               colors=c("#3C5A8A", "#D3D3D3"), 
+               colors=c("#012a4a", "#89c2d9"), 
                title="Habilitation", flip = T, legend_pos = "none")+
-    theme(plot.title = element_text(size=9),
-          text=element_text(family="Lato")
-    )
+    theme(plot.title = element_text(size=12),
+          text=element_text(family="Lato"))+
+    theme(legend.position="bottom")
   
   
   prof <- c(`Women`= 12, `Men`= 88)
   
   w5 <- waffle(prof, rows=10, size=1, 
-               colors=c("#3C5A8A", "#D3D3D3"), 
+               colors=c("#012a4a", "#89c2d9"), 
                title="Professors", flip = T, legend_pos = "none")+
-    theme(plot.title = element_text(size=9),
+    theme(plot.title = element_text(size=12),
           text=element_text(family="Lato")
     )+
     labs(caption = "Source: destatis.de")+
     theme(text=element_text(family="Lato"))
   
   
+  #w2 | w3 | w4 | w5
+  (w2 + w3) / (w4 + w5)
   
-  w1 | ( w2 + w3 + w4 + w5)
   
   
 }
 
-waffle_plot()
+
 
 #09 Wordle#########
 
@@ -461,55 +519,58 @@ dumbbell_plot <- function(variables) {
   
 }
 
+
+
+
 #title = "Increases of Life Expectancy"
 
-alice_plot <- function(variables) {
-  alice2 <- read_csv("DATA/alice3.txt")
-  alice <- alice2$`Alice in Wonderland`
-  
-  text_df <- tibble(line = 1:824, text = alice)
-  
-  text_df <- text_df %>%
-    unnest_tokens(word, text)
-  
-  data(stop_words)
-  
-  
-  tidy_books <- text_df %>%
-    anti_join(stop_words)
-  
-  df <- tidy_books %>%
-    count(word, sort = TRUE) %>% 
-    filter(n > 7) 
-  
-  harrys <- tibble(word = c("alice"),
-                   lexicon = "SMART")
-  
-  df <- df %>%
-    anti_join(harrys)
-  
-  font_add_google("Delius", "Delius")
-  
-  ## Automatically use showtext to render text for future devices
-  showtext_auto()
-  
-  df <- df %>%
-    mutate(angle = 90 * sample(c(0, 1), n(), replace = TRUE, prob = c(60, 40)))
-  
-  set.seed(123)
-  ggplot(df, aes(label = word, size = n,
-                 angle = angle)) +
-    geom_text_wordcloud_area(color = "black",
-                             family="Delius")+
-    scale_size_area(max_size = 24, trans = power_trans(1/.7))+
-    #scale_size_area(max_size = 24) +  
-    theme_minimal()+
-    theme(text=element_text(family="Delius"))+
-    #labs(title = "Alice in Wonderland")+
-    theme(plot.title = element_text(size=20, face = "bold"))
-  #scale_color_gradient(low = "blue", high = "red")
-  
-}
+# alice_plot <- function(variables) {
+#   alice2 <- read_csv("DATA/alice3.txt")
+#   alice <- alice2$`Alice in Wonderland`
+#   
+#   text_df <- tibble(line = 1:824, text = alice)
+#   
+#   text_df <- text_df %>%
+#     unnest_tokens(word, text)
+#   
+#   data(stop_words)
+#   
+#   
+#   tidy_books <- text_df %>%
+#     anti_join(stop_words)
+#   
+#   df <- tidy_books %>%
+#     count(word, sort = TRUE) %>% 
+#     filter(n > 7) 
+#   
+#   harrys <- tibble(word = c("alice"),
+#                    lexicon = "SMART")
+#   
+#   df <- df %>%
+#     anti_join(harrys)
+#   
+#   font_add_google("Delius", "Delius")
+#   
+#   ## Automatically use showtext to render text for future devices
+#   showtext_auto()
+#   
+#   df <- df %>%
+#     mutate(angle = 90 * sample(c(0, 1), n(), replace = TRUE, prob = c(60, 40)))
+#   
+#   set.seed(123)
+#   ggplot(df, aes(label = word, size = n,
+#                  angle = angle)) +
+#     geom_text_wordcloud_area(color = "black",
+#                              family="Delius")+
+#     scale_size_area(max_size = 24, trans = power_trans(1/.7))+
+#     #scale_size_area(max_size = 24) +  
+#     theme_minimal()+
+#     theme(text=element_text(family="Delius"))+
+#     #labs(title = "Alice in Wonderland")+
+#     theme(plot.title = element_text(size=20, face = "bold"))
+#   #scale_color_gradient(low = "blue", high = "red")
+#   
+# }
 
 tree2 <- function(variables) {
   df <- data.frame(
@@ -536,5 +597,9 @@ tree2 <- function(variables) {
     scale_fill_viridis_c(direction = -1)+
     theme(legend.position = "none")
 }
+
+
+
+
 
 
