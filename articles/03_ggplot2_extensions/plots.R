@@ -600,6 +600,54 @@ tree2 <- function(variables) {
 
 
 
+school_alluvial <- function() {
+  
+  df <- tibble::tribble(
+    ~From,                 ~To, ~Freq,  ~Schulwechsel,
+    "MS",     "FS",   863,  "Abstieg",
+    "MS",        "RS", 4899, "Aufstieg",
+    "MS",         "Gym",   312, "Aufstieg",
+    "FS",      "MS",   757, "Aufstieg",
+    "FS",        "RS",    19, "Aufstieg",
+    "FS",         "Gym",     5, "Aufstieg",
+    "RS",     "FS",    51,  "Abstieg",
+    "RS",      "MS", 5669,  "Abstieg",
+    "RS",         "Gym",   311, "Aufstieg",
+    "Gym",     "FS",     6,  "Abstieg",
+    "Gym",      "MS",   766,  "Abstieg",
+    "Gym",        "RS", 7699,  "Abstieg",
+    "Gym",    "FOS", 1227,  "Abstieg")
+  
+  
+  df$To <- factor(df$To,
+                  levels = c("Gym", "FOS", "RS", "MS", "FS"))
+  
+  
+  df$From <- factor(df$From,
+                    levels = c("Gym", "FOS", "RS", "MS", "FS"))
+  
+  
+  
+ggplot(data = df,
+         aes(axis1 = From, axis2 = To, y = Freq)) +
+    geom_alluvium(aes(fill = Schulwechsel), alpha = 0.9) +
+    geom_stratum()+
+    geom_text(stat = "stratum", aes(label = after_stat(stratum)), 
+              size = rel(4))+
+    theme_minimal(base_size = 12, base_family = "Lato")+
+    labs(title = "Change of school type in the 2018/19 school year",
+         caption = "Note: The school types Wirtschaftsschule and Realschule were combined. Data: Official school data from the Bavarian State Office for Statistics")+
+    scale_x_discrete(limits = c("From", "To")) +
+    scale_fill_manual(values = c("#9b2226", "#003566"),
+                      name = "Change of school",
+                      labels = c("Downwards", "Upwards"))+
+    theme(legend.position="bottom")+
+    theme(plot.caption = element_text(color = "darkgray"))
+  
+  
+}
+
+school_alluvial()
 
 
 
