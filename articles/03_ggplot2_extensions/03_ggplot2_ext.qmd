@@ -91,7 +91,30 @@ ggplot(data, aes(fill = murder))+
 
 ```
 
-## 04 Dumbbell and lollipop charts
+## 04 Dots dots dots
+
+Bla bla
+
+```{r Fig_7311, echo=FALSE, eval=T, purl=FALSE}
+dot_plot()
+```
+
+Creating a word cloud is not rocket since, but working with text is a complicated topic in the beginning. Fortunately, there is no need to learn text mining first, the `ggwordcloud` package includes data to make word clouds. Consider reading *Text Mining with R* by @silge_text_2017 to learn more about text mining.
+
+```{r, results='hide', fig.keep='none'}
+library(dotwhisker)
+library(palmerpenguins)
+
+m1 <- lm(flipper_length_mm ~ bill_length_mm,
+           data = penguins)
+m2 <- lm(flipper_length_mm ~ bill_length_mm + sex,
+           data = penguins)
+
+dwplot(list(m1, m2),
+       vline = geom_vline(xintercept = 0))
+```
+
+## 044 Dumbbell and lollipop charts
 
 The `ggplot2` package lets you build a graph from scratch, but creating a visualization is hard work. The `ggcharts` package is for the lazy cats and gives access to a lot of common charts [@ggcharts]. The package has implemented those graphs with its own functions, and we don't have to create each step on our own. Furthermore, the package returns `ggplot2` objects, which implies that you can apply your `ggplot2` knowledge as well.
 
@@ -137,7 +160,7 @@ The graph is inspired by [r-graph-gallery.com](www.r-graph-gallery.com) website.
 Mosaic (or spine) plots are very powerful when visualizing descriptive results, and we created one with base R in Chapter 3. However, mosaic plots are also implemented in `ggplot2`. The `ggmosaic()` package provides the corresponding geom [@ggmosaic]. The illustration uses the `titanic` data and depicts the effect of passenger's sex on survival. Obviously, more women than men survived the accident.
 
 ```{r Fig_736, echo=FALSE, eval=T, purl=FALSE}
-mosaic_plot2()
+mosaic_plot()
 ```
 
 As the minimal code illustrates, the `geom_mosaic` comes with a `product()` function to estimate frequencies for each category and fills each box accordingly.
@@ -243,6 +266,9 @@ ggplot(love_words_small, aes(label = word,
   geom_text_wordcloud() +
   scale_size_area(max_size = 30)
 ```
+
+
+
 
 ## Summary
 
