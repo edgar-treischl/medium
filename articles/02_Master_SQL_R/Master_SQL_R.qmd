@@ -207,3 +207,5 @@ cat(htmltools::includeText("sql_code.txt"))
 ```
 
 I hope you find the discussed tips helpful, at least, I missed them when I started to learn SQL.
+
+## References

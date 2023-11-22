@@ -252,6 +252,28 @@ if (window.hljs) {
 
 
 
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
 
 
 
@@ -373,9 +395,10 @@ repository.</p>
 multiple-choice questions to assess the knowledge of our students. I
 don’t know how many times I have manually corrected an exam which is why
 this blog gives a short introduction and shows why you should consider
-the R <code>exams</code> package for single or multiple choice exams.
-The package provides features to automate the entire process, from
-generating the exam up to assigning grades.</p>
+the R <code>exams</code> package for single or multiple choice exams
+<span class="citation">(Grün and Zeileis 2009)</span>. The package
+provides features to automate the entire process, from generating the
+exam up to assigning grades.</p>
 <p>First, why should you consider R for exams? The exams package helps
 you to generate, scan, and assess the exam. It helps you to create a
 scan sheet that your students fill out in the exam. After the exam, you
@@ -536,14 +559,14 @@ exam results.</p>
 data if we want to provide a short summary for the participants or if we
 want to rerun the data management steps. Thus, use the
 <code>readr</code> package to import the data and the
-<code>tidyverse</code> approach for data wrangling. If you are not
-familiar with loading data in R, import the data with the import data
-function in RStudio. It gives you a preview of the data, shows you the
-corresponding packages and the code to import the data. As the following
-code snippet shows, you can read a delimited file (including csv &amp;
-tsv) with the <code>read_delim()</code> function and we have to tweak
-the delimiters, because our file contains semicolons instead of commas
-to separate values.</p>
+<code>tidyverse</code> approach for data wrangling <span class="citation">(Wickham et al. 2019)</span>. If you are not familiar
+with loading data in R, import the data with the import data function in
+RStudio. It gives you a preview of the data, shows you the corresponding
+packages and the code to import the data. As the following code snippet
+shows, you can read a delimited file (including csv &amp; tsv) with the
+<code>read_delim()</code> function and we have to tweak the delimiters,
+because our file contains semicolons instead of commas to separate
+values.</p>
 <pre class="r"><code>#Load data
 library(readr)
 exam_df &lt;- read_delim(&quot;nops_eval.csv&quot;, 
@@ -551,12 +574,12 @@ exam_df &lt;- read_delim(&quot;nops_eval.csv&quot;,
 <p>Next, I exclude all variables which are not longer necessary for the
 report after importing that data. The <code>dplyr</code> package gives a
 lot handy functions to work with data and the package is included in the
-<code>tidyverse</code> package. We can use the <code>select()</code>
-function to make a narrow data frame with an ID variable (register
-number) and the points variable from the exam data only. I generated
-some fake data to illustrate this process, but the code shows you
-furthermore how you can save a new data frame with the selected
-variables:</p>
+<code>tidyverse</code> package <span class="citation">(Wickham et al.
+2023)</span>. We can use the <code>select()</code> function to make a
+narrow data frame with an ID variable (register number) and the points
+variable from the exam data only. I generated some fake data to
+illustrate this process, but the code shows you furthermore how you can
+save a new data frame with the selected variables:</p>
 <pre class="r"><code>#Fake example data
 library(tidyverse)
 exam_df &lt;- tribble(
@@ -659,9 +682,10 @@ incentive, but you can also use R to generate a small report for your
 students. You may want to check out <a href="https://rmarkdown.rstudio.com/"><code>rmarkdown</code></a> which
 let you easily create different files (pdf, html, word) and I have a
 standard document for my students that contains a table as well as a
-histogram that depicts the exam grades. The next console shows the code
-to generate such a histogram with the help of the <a href="https://ggplot2.tidyverse.org/"><code>ggplot2</code></a>
-package.</p>
+histogram that depicts the exam grades <span class="citation">(Allaire
+et al. 2023)</span>. The next console shows the code to generate such a
+histogram with the help of the <a href="https://ggplot2.tidyverse.org/"><code>ggplot2</code></a> package
+<span class="citation">(Wickham 2016)</span>.</p>
 <pre class="r"><code>#Inspect the results visually
 mean_grade &lt;- exam_df %&gt;% 
   pull(grade) %&gt;% 
@@ -743,6 +767,34 @@ Visit the <a href="http://www.r-exams.org/">R exams website</a> for
 tutorials, the dynamic exercises, or e-learning tests. But most of all I
 hope that I could convince some people that learning how to create,
 scan, and correct exams with R is no magic at all.</p>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-rmarkdown" class="csl-entry">
+Allaire, JJ, Yihui Xie, Christophe Dervieux, Jonathan McPherson, Javier
+Luraschi, Kevin Ushey, Aron Atkins, et al. 2023. <span>“Rmarkdown:
+Dynamic Documents for r.”</span> <a href="https://github.com/rstudio/rmarkdown">https://github.com/rstudio/rmarkdown</a>.
+</div>
+<div id="ref-exams" class="csl-entry">
+Grün, Bettina, and Achim Zeileis. 2009. <span>“Automatic Generation of
+Exams in <span></span>r<span></span>”</span> 29. <a href="https://doi.org/10.18637/jss.v029.i10">https://doi.org/10.18637/jss.v029.i10</a>.
+</div>
+<div id="ref-ggplot2" class="csl-entry">
+Wickham, Hadley. 2016. <span>“Ggplot2: Elegant Graphics for Data
+Analysis.”</span> <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.
+</div>
+<div id="ref-tidyverse" class="csl-entry">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy
+D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019.
+<span>“Welcome to the <span></span>Tidyverse<span></span>”</span> 4:
+1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div id="ref-dplyr" class="csl-entry">
+Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and Davis
+Vaughan. 2023. <span>“Dplyr: A Grammar of Data Manipulation.”</span> <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.
+</div>
+</div>
 </div>
 
 
